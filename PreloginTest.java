@@ -19,38 +19,51 @@ public class PreloginTest {
     public void setup(){
         System.setProperty("webdriver.gecko.driver","C:\\Users\\balajik\\git\\Practice\\Java\\geckodriver-v0.29.1-win64\\geckodriver.exe");
         driver=new FirefoxDriver();
-        driver.manage().window().maximize();
+
         driver.manage().deleteAllCookies();
+        driver.get("https://www.demoblaze.com/");
+        driver.manage().window().maximize();
         driver.manage().timeouts().pageLoadTimeout(20, TimeUnit.SECONDS);
         driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
-        driver.get("https://www.demoblaze.com/");
     }
 
-    @Test
-    public void loginButton() {
-        String title=driver.getTitle();
-        System.out.println(title);
-        driver.findElement(By.id("login2")).click();
+    @Test(priority = 2)
+    public void cart() {
+
+        driver.findElement(By.linkText("Cart")).click();
+        String cartvalue= driver.findElement(By.xpath("//th[text()='x']")).getText();
+        Assert.assertEquals(cartvalue,"x");
     }
 
-    @Test
+    @Test(priority = 1)
     public void preloginTabs(){
+        String websitename=driver.findElement(By.xpath("//nav[@id='narvbarx']/a[1]")).getText();
+        Reporter.log(websitename);
+
         Boolean h1=driver.findElement(By.partialLinkText("Home")).isDisplayed();
+        String str1 = String.valueOf(h1);
         Boolean h2=driver.findElement(By.linkText("Contact")).isDisplayed();
+        String str2 = String.valueOf(h2);
         Boolean h3=driver.findElement(By.linkText("About us")).isDisplayed();
+        String str3 = String.valueOf(h3);
         Boolean h4=driver.findElement(By.linkText("Cart")).isDisplayed();
+        String str4 = String.valueOf(h4);
         Boolean h5=driver.findElement(By.linkText("Log in")).isDisplayed();
+        String str5 = String.valueOf(h5);
         Boolean h6=driver.findElement(By.linkText("Sign up")).isDisplayed();
-        System.out.println(h1);
-        System.out.println(h2);
-        System.out.println(h3);
-        System.out.println(h4);
-        System.out.println(h5);
-        System.out.println(h6);
+        String str6 = String.valueOf(h6);
+
+
+        Reporter.log("The heading 1 is displayed: " + str1);
+        Reporter.log("The heading 2 is displayed: " + str2);
+        Reporter.log("The heading 3 is displayed: " + str3);
+        Reporter.log("The heading 4 is displayed: " + str4);
+        Reporter.log("The heading 5 is displayed: " + str5);
+        Reporter.log("The heading 6 is displayed: " + str6);
 
     }
 
-    @Test
+    @Test(priority = 3)
     public void category() {
 
         String[] categoryvalue = {"CATEGORIES", "Phones", "Laptops", "Monitors"};
